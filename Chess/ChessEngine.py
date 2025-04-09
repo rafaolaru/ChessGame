@@ -16,12 +16,29 @@ class Game():
         self.white_to_move = True
         self.move_log = []
 
+    """
+    takes a parameter (move) and executes the move on the board (beta version) because can eat its own pieces
+    """
     def make_move(self, move):
         print(f"Making move: {move.getNotation()}")
         self.board[move.startRow][move.startCol] = "--" # empty the start square
         self.board[move.endRow][move.endCol] = move.pieceMove # move the piece to the end square
         self.move_log.append(move)# add the move to the move log so we can undo like in chess or record history of game
         self.white_to_move = not self.white_to_move # switch turns
+
+    """
+    Undo the last move 
+    """
+    def undo_move(self):
+        if len(self.move_log) != 0: #Cant undo if its empty no move has been done
+            move = self.move_log.pop()
+            self.board[move.startRow][move.startCol] = move.pieceMove # put the piece back to the start square
+            self.board[move.endRow][move.endCol] = move.pieceEnd # put the piece back to the end square
+            self.white_to_move = not self.white_to_move # switch turns back to the original player
+
+    #This in a real tournament wont be accepable but for testing purposes is ok
+
+
 class Move():
 
 

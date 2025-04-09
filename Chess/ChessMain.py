@@ -43,6 +43,13 @@ def main():
                     sq_selected = () # reset the square
                     player_clicks = [] # reset the clicks
 
+
+            #Keyboard events for Undoing the move
+            elif e.type == p.KEYDOWN:
+                if e.key == p.K_z: #Undo the move when z is pressed
+                    gs.undo_move()
+
+
         draw_game(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()
