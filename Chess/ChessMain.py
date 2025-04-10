@@ -18,10 +18,13 @@ def main():
     clock = p.time.Clock()
     screen.fill(p.Color("white"))
     gs = ChessEngine.Game()
+    validMoves = gs.getValidMoves() #after a player does a move we can see if its valid or not
+    moveMade = False #Flag for when a move is made just after the player makes a move we call the getValidMoves
+    #to see the generated valid moves after a move is made not before (not to overkill the engine)
     load_images()
     running = True
     sq_selected = () #for storing the last click of the user
-    player_clicks = []# for storing the last two clicks of the user for the move
+    player_clicks = [] #for storing the last two clicks of the user for the move
     while running:
         for e in p.event.get():
             if e.type == p.QUIT:
@@ -39,6 +42,10 @@ def main():
                 if len(player_clicks) == 2: # if the user has clicked two squares
                     move = ChessEngine.Move(player_clicks[0], player_clicks[1], gs.board)
                     print(move.getNotation())
+                    if move in validMoves:
+                        gs.make_move(move)
+                        moveMade = True
+
                     gs.make_move(move) # make the move
                     sq_selected = () # reset the square
                     player_clicks = [] # reset the clicks
@@ -48,6 +55,12 @@ def main():
             elif e.type == p.KEYDOWN:
                 if e.key == p.K_z: #Undo the move when z is pressed
                     gs.undo_move()
+                    moveMade = True
+
+
+        if moveMade:
+            validMoves = gs.getValidMoves()
+            moveMade = False
 
         draw_game(screen, gs)
         clock.tick(MAX_FPS)

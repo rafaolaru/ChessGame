@@ -38,10 +38,45 @@ class Game():
 
     #This in a real tournament wont be accepable but for testing purposes is ok
 
+    """
+    All moves While king in check
+    """
+    def getValidMoves(self):
+        return self.getAllPossibleMoves() # get all possible moves without worrying about the king in check for now
+
+
+    """
+    All legal moves without king in check
+    """
+    def getAllPossibleMoves(self):
+        moves = [Move((6,4),(4,4), self.board)]
+        for row in range(len(self.board)):
+            for col in range(len(self.board[row])):
+        #In a 2d self.board[0] will give us the len of the rows but we need the len of the col in a given row
+                turn = self.board[row][col][0] #we will get the given sq on the board and its given color (W or B)
+                if (turn == "w" and self.white_to_move) and (turn == "b" and not self.white_to_move):
+                    piece = self.board[row][col][1] #gives the piece type
+                    if piece == "p":
+                        self.getPawnMoves(row, col, moves)
+                    elif piece == "R":
+                        self.getRookMoves(row, col, moves)
+        return moves
+
+
+    """
+    Functions for each individual piece row, col and moves to the list
+    """
+    def getPawnMoves(self, row, col, moves):
+        pass
+
+
+    def getRookMoves(self, row, col, moves):
+        pass
+
+
+
 
 class Move():
-
-
     numbering_the_rows = {"1" : 7, "2" : 6, "3" : 5, "4" : 4, "5" : 3, "6" : 2, "7" : 1, "8" : 0}
 
     rows_as_numbers = {v: k for k, v in numbering_the_rows.items()} # reverse the dictionary
@@ -57,6 +92,14 @@ class Move():
         self.endCol = end[1]
         self.pieceMove = board[self.startRow][self.startCol]
         self.pieceEnd = board[self.endRow][self.endCol]
+        self.MoveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
+        #Just a way to identify the move in a unique way so we can get the move 0000 - 7777
+        #For example 0002 is from (row 0 col) 0 to (row 0 col 2)
+
+    def __eq__(self, other):
+        if isinstance(other, Move):
+            return self.MoveID == other.MoveID
+        return False
 
     def getNotation(self):
         return self.getRankFile(self.startRow, self.startCol) + self.getRankFile(self.endRow, self.endCol)
