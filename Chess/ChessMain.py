@@ -49,7 +49,6 @@ def main():
                 if e.key == p.K_z: #Undo the move when z is pressed
                     gs.undo_move()
 
-
         draw_game(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()

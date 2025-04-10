@@ -1,0 +1,20 @@
+My thought Process for the game i used to play a little and those are the things i remember about it
+might add more later but the basic idea is to make a chess game:
+Following the steps below (Doesnt have to be in the order but the UI is essential firstly to get the game going with its logic):
+
+1.Make a board Essentially a 2D array of 8x8
+2.Choose a board color
+3.add chess pieces to the board (PNG)
+4.add coordinates to the board like labels A-H 0-7
+5.Make them clickable
+6.add a move function to the pieces without any logic yet jus the movement
+7.Represent the Board to keep tracking of the moves
+8.implement the logic of the pieces (Starting from the pawn - Dont forget passant)
+9.Add basic move validation
+10.Update UI and Update game logic for invalid and valid moves
+11.Add a turn system
+12.Add a timer
+13.Highlight valid moves (like in chess.com)
+14.Add a check and checkmate system
+15.Add a promotion system
+16.Move History and maybe an undo for the fun but not optional
