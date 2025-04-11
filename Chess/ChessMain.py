@@ -45,8 +45,6 @@ def main():
                     if move in validMoves:
                         gs.make_move(move)
                         moveMade = True
-
-                    gs.make_move(move) # make the move
                     sq_selected = () # reset the square
                     player_clicks = [] # reset the clicks
 

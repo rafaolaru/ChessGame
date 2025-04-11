@@ -1,6 +1,4 @@
 
-
-
 class Game():
     def __init__(self):
         self.board = [
@@ -9,7 +7,7 @@ class Game():
             ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
-            ["--", "--", "--", "--", "--", "--", "--", "--"],
+            ["--", "--", "--", "bP", "--", "--", "--", "--"],
             ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
             ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
         ]
@@ -49,14 +47,15 @@ class Game():
     All legal moves without king in check
     """
     def getAllPossibleMoves(self):
-        moves = [Move((6,4),(4,4), self.board)]
+        moves = []
         for row in range(len(self.board)):
             for col in range(len(self.board[row])):
-        #In a 2d self.board[0] will give us the len of the rows but we need the len of the col in a given row
+                #In a 2d self.board[0] will give us the len of the rows but we need the len of the col in a given row
                 turn = self.board[row][col][0] #we will get the given sq on the board and its given color (W or B)
-                if (turn == "w" and self.white_to_move) and (turn == "b" and not self.white_to_move):
+                if (turn == "w" and self.white_to_move) or (turn == "b" and not self.white_to_move):
+
                     piece = self.board[row][col][1] #gives the piece type
-                    if piece == "p":
+                    if piece == "P":
                         self.getPawnMoves(row, col, moves)
                     elif piece == "R":
                         self.getRookMoves(row, col, moves)
@@ -67,11 +66,38 @@ class Game():
     Functions for each individual piece row, col and moves to the list
     """
     def getPawnMoves(self, row, col, moves):
-        pass
+        if self.white_to_move:
+            if self.board[row - 1][col] == "--":
+                moves.append(Move((row, col), (row - 1, col), self.board))
+                if row == 6 and self.board[row - 2][col] == "--":
+                    moves.append(Move((row, col), (row - 2, col), self.board))
 
+            if col - 1 >= 0: #Capture left enemy
+                if self.board[row - 1][col - 1][0] == "b":
+                    moves.append(Move((row, col), (row - 1, col - 1), self.board))
+            if col + 1 <= 7: # capture right enemy
+                if self.board[row - 1][col + 1][0] == "b":
+                    moves.append(Move((row, col), (row - 1, col + 1), self.board))
+
+        else: #black pawn move
+            pass
 
     def getRookMoves(self, row, col, moves):
         pass
+
+    def getKnightMoves(self, row, col, moves):
+        pass
+
+    def getBishopMoves(self, row, col, moves):
+        pass
+
+    def getQueenMoves(self, row, col, moves):
+        pass
+
+    def getKingMoves(self, row, col, moves):
+        pass
+
+
 
 
 
@@ -95,6 +121,7 @@ class Move():
         self.MoveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
         #Just a way to identify the move in a unique way so we can get the move 0000 - 7777
         #For example 0002 is from (row 0 col) 0 to (row 0 col 2)
+        #print(self.MoveID)
 
     def __eq__(self, other):
         if isinstance(other, Move):
