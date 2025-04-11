@@ -7,7 +7,7 @@ class Game():
             ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
-            ["--", "--", "--", "bP", "--", "--", "--", "--"],
+            ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
             ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
         ]
@@ -80,7 +80,18 @@ class Game():
                     moves.append(Move((row, col), (row - 1, col + 1), self.board))
 
         else: #black pawn move
-            pass
+            if self.board[row + 1][col] == "--":
+                moves.append((Move((row, col),(row + 1, col), self.board)))
+                if row == 1 and self.board[row + 2][col] == "--":
+                    moves.append(Move((row, col), (row + 2, col), self.board))
+
+            if col - 1 >= 0: # Cupture left enemy
+                if self.board[row + 1][col - 1][0] == "w":
+                    moves.append(Move((row, col), (row + 1, col - 1), self.board))
+            if col + 1 <= 7:
+                if self.board[row + 1][col + 1][0] == "w":
+                    moves.append(Move((row, col), (row + 1, col + 1), self.board))
+
 
     def getRookMoves(self, row, col, moves):
         pass
