@@ -11,6 +11,9 @@ class Game():
             ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
             ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
         ]
+        self.moveFunctions = {'P': self.getPawnMoves, 'R': self.getRookMoves, 'N': self.getKnightMoves,
+                              'B': self.getBishopMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
+
         self.white_to_move = True
         self.move_log = []
 
@@ -54,20 +57,10 @@ class Game():
                 turn = self.board[row][col][0] #we will get the given sq on the board and its given color (W or B)
                 if (turn == "w" and self.white_to_move) or (turn == "b" and not self.white_to_move):
                     piece = self.board[row][col][1] #gives the piece type
-                    if piece == "P":
-                        self.getPawnMoves(row, col, moves)
-                    elif piece == "R":
-                        self.getRookMoves(row, col, moves)
-                    elif piece == "N":
-                        self.getKnightMoves(row, col, moves)
-                    elif piece == "B":
-                        self.getBishopMoves(row, col, moves)
-                    elif piece == "Q":
-                        self.getQueenMoves(row, col, moves)
-                    elif piece == "K":
-                        self.getKingMoves(row, col, moves)
+                    self.moveFunctions[piece](row, col, moves)
 
-                    #Might do a caller functions instead all the if statements to make it more readable aesthetic 
+                    #A bit of optimizations from last time we added a caller function hashmap to be exact
+
 
         return moves
 
