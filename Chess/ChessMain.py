@@ -45,8 +45,10 @@ def main():
                     if move in validMoves:
                         gs.make_move(move)
                         moveMade = True
-                    sq_selected = () # reset the square
-                    player_clicks = [] # reset the clicks
+                        sq_selected = () # reset the square
+                        player_clicks = [] # reset the clicks
+                    else:
+                        player_clicks = [sq_selected]
 
 
             #Keyboard events for Undoing the move
