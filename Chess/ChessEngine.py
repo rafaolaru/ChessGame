@@ -36,6 +36,10 @@ class Game():
             self.whiteKingLocation = [move.endRow, move.endCol]
         elif move.pieceMove == "bK":
             self.blackKingLocation = [move.endRow, move.endCol]
+
+        #Pawn promotion
+        if move.isPawnPromotion:
+            self.board[move.endRow][move.endCol] = move.pieceMove[0] + "Q" # promote to queen
     """
     Undo the last move 
     """
@@ -259,6 +263,12 @@ class Move():
         self.endCol = end[1]
         self.pieceMove = board[self.startRow][self.startCol]
         self.pieceEnd = board[self.endRow][self.endCol]
+
+        #Pawn promotion
+        self.isPawnPromotion = False
+        if (self.pieceMove == "wP" and self.endRow == 0) or (self.pieceMove == "bP" and self.endRow == 7):
+            self.isPawnPromotion = True
+
         self.MoveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
         #Just a way to identify the move in a unique way so we can get the move 0000 - 7777
         #For example 0002 is from (row 0 col) 0 to (row 0 col 2)

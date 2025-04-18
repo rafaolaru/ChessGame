@@ -42,12 +42,13 @@ def main():
                 if len(player_clicks) == 2: # if the user has clicked two squares
                     move = ChessEngine.Move(player_clicks[0], player_clicks[1], gs.board)
                     print(move.getNotation())
-                    if move in validMoves:
-                        gs.make_move(move)
-                        moveMade = True
-                        sq_selected = () # reset the square
-                        player_clicks = [] # reset the clicks
-                    else:
+                    for i in range(len(validMoves)):
+                        if move == validMoves[i]:
+                            gs.make_move(validMoves[i])
+                            moveMade = True
+                            sq_selected = ()
+                            player_clicks = []
+                    if not moveMade:
                         player_clicks = [sq_selected]
 
 
