@@ -20,6 +20,8 @@ class Game():
         self.blackKingLocation = (0, 4) #Kings location on the board will help with checks and castling
         self.checkMate = False #checkmate has no valid moves and the king is in check
         self.staleMate = False # stalemate has no valid moves and the king is not in check
+        self.enpassantPossible = () # enpassant is a special move in chess where a pawn can capture an enemy pawn that has moved two squares forward
+
 
 
     """
@@ -40,6 +42,12 @@ class Game():
         #Pawn promotion
         if move.isPawnPromotion:
             self.board[move.endRow][move.endCol] = move.pieceMove[0] + "Q" # promote to queen
+
+        #Enpassant move
+        if move.isEnpassantMove:
+            self.board[move.startRow][move.endRow] = "--" #capture the pawn
+        
+
     """
     Undo the last move 
     """
@@ -138,9 +146,17 @@ class Game():
             if col - 1 >= 0: #Capture left enemy
                 if self.board[row - 1][col - 1][0] == "b":
                     moves.append(Move((row, col), (row - 1, col - 1), self.board))
+                #EnPassant Move logic
+                elif (row - 1, col - 1) == self.enpassantPossible:
+                    moves.append(Move((row, col), (row - 1, col - 1), self.board, True))
+
             if col + 1 <= 7: # capture right enemy
                 if self.board[row - 1][col + 1][0] == "b":
                     moves.append(Move((row, col), (row - 1, col + 1), self.board))
+
+                #EnPassant Move logic
+                elif (row - 1, col + 1) == self.enpassantPossible:
+                    moves.append(Move((row, col), (row - 1, col + 1), self.board, True))
 
         else: #black pawn move
             if self.board[row + 1][col] == "--":
@@ -151,9 +167,17 @@ class Game():
             if col - 1 >= 0: # Cupture left enemy
                 if self.board[row + 1][col - 1][0] == "w":
                     moves.append(Move((row, col), (row + 1, col - 1), self.board))
+
+                #EnPassant Move logic
+                elif (row + 1, col - 1) == self.enpassantPossible:
+                    moves.append(Move((row, col), (row + 1, col - 1), self.board, True))
+
             if col + 1 <= 7:
                 if self.board[row + 1][col + 1][0] == "w":
                     moves.append(Move((row, col), (row + 1, col + 1), self.board))
+                #EnPassant Move logic
+                elif (row + 1, col + 1) == self.enpassantPossible:
+                    moves.append(Move((row, col), (row + 1, col + 1), self.board, True))
 
 
     def getRookMoves(self, row, col, moves):
@@ -256,7 +280,7 @@ class Move():
 
     cols_as_alphabet = {v: k for k, v in alphabet_the_cols.items()} # reverse the dictionary
 
-    def __init__(self, start, end, board):
+    def __init__(self, start, end, board, isEnpassantMove=False):
         self.startRow = start[0]
         self.startCol = start[1]
         self.endRow = end[0]
@@ -268,6 +292,8 @@ class Move():
         self.isPawnPromotion = False
         if (self.pieceMove == "wP" and self.endRow == 0) or (self.pieceMove == "bP" and self.endRow == 7):
             self.isPawnPromotion = True
+        #En Passant
+        self.isEnpassantMove = isEnpassantMove
 
         self.MoveID = self.startRow * 1000 + self.startCol * 100 + self.endRow * 10 + self.endCol
         #Just a way to identify the move in a unique way so we can get the move 0000 - 7777
