@@ -18,3 +18,18 @@ Following the steps below (Doesnt have to be in the order but the UI is essentia
 14.Add a check and checkmate system
 15.Add a promotion system
 16.Move History and maybe an undo for the fun but not optional
+
+
+
+Ok so for the game im a bit stuck on the enpassant move and acsteling i need to get the information of the pieces and their moves
+and the logic behind it, it seems a bit weird because the enpassant move is only valid if the pawn moves two spaces and the other pawn is next to it
+and it eats diagonally, i will get to the bottom of it.
+
+and for the casteling i need to make sure there is no check and if it moved once it cannot castle just like in real chess
+and the king and rook need to be in the right position and not blocked by any pieces
+so need to figure how to do it
+should be easy because i only check fewer pieces
+
+for now i did 1,2,3,4,5,6,7,8(enPassant and casteling not done yet),9,11,14,15(a bit off but i will get to it),16
+and i will work on the rest later
+
